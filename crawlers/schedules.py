@@ -51,10 +51,11 @@ def convert_rows_type(rows):
 
 
 def fetch_data():
+    print("Schedules -- fetching")
     # Get zip archive
     request = requests.get(URL)
     archive = zipfile.ZipFile(io.BytesIO(request.content))
-    print("Archive downloaded")
+    print("Schedules -- Archive downloaded")
 
     # SQL Session
     session = Session()
@@ -71,6 +72,8 @@ def fetch_data():
             .first()
 
         if last_obj is None or last_obj.resource_hash != in_hash:
+            print("Schedules -- {}".format(cls.__tablename__))
+
             # Read csv
             reader = csv.DictReader(io.StringIO(raw.decode("utf-8")))
             rows = list(reader)
@@ -92,12 +95,10 @@ def fetch_data():
             chunk = 5000
             for i in range((len(rows) // chunk) + 1):
                 begin, end = i * chunk, min((i+1) * chunk, len(rows))
-                print("inserting [{}:{}] {}".format(begin, end, cls.__tablename__))
+                print("Schedules -- inserting [{}:{}] {}".format(begin, end, cls.__tablename__))
                 connection.execute(
                     cls.__table__.insert(),
                     rows[begin: end]
                 )
-
         else:
-            print("no insert", cls.__tablename__)
-
+            print("Schedules -- no insert {}".format(cls.__tablename__))
