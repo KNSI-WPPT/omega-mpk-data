@@ -99,3 +99,15 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Pycharm project metadata
+.idea/
+
+# Password file - mostly here for debug info
+pwdfile
+
+# Database files - just debug
+*.db
+
+# Don't include venv
+ohm
