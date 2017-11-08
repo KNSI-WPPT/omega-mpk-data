@@ -40,11 +40,14 @@ def fetch_data():
         headers={'Content-Type': 'application/x-www-form-urlencoded'}
     )
 
-    positions = r.json()
-    for p in positions:
-        p['datetime'] = now
+    try:
+        positions = r.json()
+        for p in positions:
+            p['datetime'] = now
 
-    connection.execute(
-        Position.__table__.insert(),
-        positions
-    )
+        connection.execute(
+            Position.__table__.insert(),
+            positions
+        )
+    except Exception as e:
+        pass
