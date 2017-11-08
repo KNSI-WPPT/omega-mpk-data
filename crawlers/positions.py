@@ -17,11 +17,20 @@ session = Session()
 connection = engine.connect()
 
 
-def fetch_data():
-    print("Positions -- Fetching")
+trams = None
+buses = None
 
+
+def update_vehicle_list():
+    print("Positions -- update vehicle list")
+
+    global trams, buses
     trams = [x[0] for x in session.query(Routes.route_id).filter(Routes.agency_id == 3).distinct()]
     buses = [x[0] for x in session.query(Routes.route_id).filter(Routes.agency_id == 2).distinct()]
+
+
+def fetch_data():
+    #print("Positions -- Fetching")
 
     now = datetime.datetime.now()
 
